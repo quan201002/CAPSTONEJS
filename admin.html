@@ -36,6 +36,7 @@
     <div class="">
       <!-- BEGIN BUTTOM THÊM MỚI -->
       <button
+        onclick="addCommand()"
         type="button"
         class="btn btn-primary ml-5"
         data-toggle="modal"
@@ -44,7 +45,7 @@
         Thêm mới sảm phẩm
       </button>
       <div class="search">
-        <select name="type" id="select" onchange="searchType(value)">
+        <select name="type" id="select" onchange="searchType()">
           <option value="All">All</option>
           <option value="Samsung">Samsung</option>
           <option value="Iphone">Iphone</option>
@@ -73,7 +74,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form">
                 <div class="mb-3">
                   <label for="id" class="form-label">ID</label>
                   <input
@@ -114,6 +115,7 @@
                   <input type="text" class="form-control" id="type" />
                 </div>
                 <button
+                  id="addBtn"
                   type="button"
                   class="btn btn-primary"
                   onclick="addProduct()"
@@ -121,28 +123,23 @@
                   Thêm
                 </button>
                 <button
+                  id="updateBtn"
                   type="button"
                   class="btn btn-success"
                   onclick="update()"
                 >
                   Cập nhật
                 </button>
-                <button type="button" class="btn btn-warning" onclick="reset()">
+                <button
+                  onclick="resetForm()"
+                  id="resetBtn"
+                  type="button"
+                  class="btn btn-warning"
+                  onclick="reset()"
+                >
                   Reset form
                 </button>
               </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
             </div>
           </div>
         </div>

@@ -1,9 +1,13 @@
 var selectedId = null;
 var productArray = [];
-var searchArray = JSON.parse(localStorage.getItem("searchArray"));
-var value = JSON.parse(localStorage.getItem("searchValue"));
-console.log(value);
-getArray();
+document.getElementById("addBtn").style.display = "inline-block";
+// var searchArray = JSON.parse(localStorage.getItem("searchArray"));
+// var value = JSON.parse(localStorage.getItem("searchValue"));
+// console.log(value);
+// getArray();
+var searchArray = [];
+fetchProducts();
+var isSearch = false;
 function renderProductList(productArr) {
   var content = "";
   for (var i = 0; i < productArr.length; i++) {
@@ -30,14 +34,14 @@ function renderProductList(productArr) {
   }
   document.querySelector(".product-container").innerHTML = content;
 }
-var isSearch = JSON.stringify(localStorage.getItem("isSearch"));
-console.log(isSearch);
-if (isSearch) {
-  var searchArray = JSON.parse(localStorage.getItem("searchArray"));
-  renderProductList(searchArray);
-} else {
-  fetchProducts();
-}
+// var isSearch = JSON.stringify(localStorage.getItem("isSearch"));
+// console.log(isSearch);
+// if (isSearch) {
+//   var searchArray = JSON.parse(localStorage.getItem("searchArray"));
+//   renderProductList(searchArray);
+// } else {
+//   fetchProducts();
+// }
 
 function fetchProducts() {
   turnOnLoading();
@@ -72,31 +76,47 @@ function addProduct() {
 }
 function xoa(id) {
   turnOnLoading();
-  axios({
-    url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${id}`,
-    method: "DELETE",
-  })
-    .then((res) => {
-      fetchProducts();
-      var vitri = productArray.findIndex((item) => {
-        return item.id == id;
-      });
-      productArray.splice(vitri, 1);
-      console.log(isSearch);
-      console.log(searchArray);
-      if (isSearch) {
-        renderProductList(searchArray);
-      }
-      // searchType();
-      // getArray();
-      // // renderProductList(productArray);
+  if (isSearch) {
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${id}`,
+      method: "DELETE",
     })
-    .catch((err) => {
-      console.log("XOÁ THẤT BẠI", err);
-    });
+      .then((res) => {
+        var vitri = searchArray.findIndex((item) => {
+          return item.id == id;
+        });
+        searchArray.splice(vitri, 1);
+        console.log(isSearch);
+        console.log(searchArray);
+        renderProductList(searchArray);
+        turnOffLoading();
+        // searchType();
+        // getArray();
+        // // renderProductList(productArray);
+      })
+      .catch((err) => {
+        console.log("XOÁ THẤT BẠI", err);
+      });
+  } else {
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${id}`,
+      method: "DELETE",
+    })
+      .then((res) => {
+        fetchProducts();
+      })
+      .catch((err) => {
+        console.log("XOÁ THẤT BẠI", err);
+      });
+  }
 }
-
+function addCommand() {
+  document.getElementById("addBtn").style.display = "inline-block";
+  document.getElementById("updateBtn").style.display = "none";
+}
 function sua(id) {
+  document.getElementById("updateBtn").style.display = "inline-block";
+  document.getElementById("addBtn").style.display = "none";
   selectedId = id;
 
   axios({
@@ -114,52 +134,99 @@ function sua(id) {
 function update() {
   console.log(selectedId);
   turnOnLoading();
-  var product = getProduct();
-  console.log(product);
-  axios({
-    url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${selectedId}`,
-    method: "PUT",
-    data: product,
-  })
-    .then((res) => {
-      fetchProducts();
+  if (isSearch) {
+    var product = getProduct();
+    console.log(product);
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${selectedId}`,
+      method: "PUT",
+      data: product,
     })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-function getArray() {
-  axios({
-    url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product`,
-    method: "GET",
-  })
-    .then((res) => {
-      for (var i = 0; i < res.data.length; i++) {
-        productArray.push(res.data[i]);
-      }
+      .then((res) => {
+        var vitri = searchArray.findIndex((item) => {
+          return item.id == selectedId;
+        });
+        searchArray[vitri] = product;
+        renderProductList(searchArray);
+        turnOffLoading();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    var product = getProduct();
+    console.log(product);
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product/${selectedId}`,
+      method: "PUT",
+      data: product,
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        fetchProducts();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
-searchType(value);
-function searchType(value) {
-  var isSearch = true;
-  localStorage.setItem("isSearch", JSON.stringify(isSearch));
-  var val = document.getElementById("select").value;
-  localStorage.setItem("searchValue", JSON.stringify(val));
-  if (val == "All") {
-    fetchProducts();
-    isSearch = false;
+
+// searchType(value);
+function searchType() {
+  // var isSearch = true;
+  // localStorage.setItem("isSearch", JSON.stringify(isSearch));
+  // var val = document.getElementById("select").value;
+  // localStorage.setItem("searchValue", JSON.stringify(val));
+  var value = document.getElementById("select").value;
+  console.log("value:", value);
+  isSearch = true;
+  searchArray = [];
+  if (value == "All") {
+    // fetchProducts();
+    // isSearch = false;
+
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product`,
+      method: "GET",
+    })
+      .then((res) => {
+        for (var i = 0; i < res.data.length; i++) {
+          searchArray.push(res.data[i]);
+        }
+        renderProductList(searchArray);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("searchArray:", searchArray);
   } else {
     document.querySelector(".product-container").innerHTML = "";
-    var result = [];
-    productArray.map((item) => {
-      if (item.type == value) {
-        result.push(item);
-      }
-    });
-    renderProductList(result);
-    localStorage.setItem("searchArray", JSON.stringify(result));
+    console.log(value);
+    // productArray.map((item) => {
+    //   if (item.type == value) {
+    //     result.push(item);
+    //   }
+    // });
+    // renderProductList(result);
+    // localStorage.setItem("searchArray", JSON.stringify(result));
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product`,
+      method: "GET",
+    })
+      .then((res) => {
+        for (var i = 0; i < res.data.length; i++) {
+          console.log(res.data[i].type);
+          if (res.data[i].type == value) {
+            searchArray.push(res.data[i]);
+          }
+        }
+        console.log(searchArray);
+        renderProductList(searchArray);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+}
+function resetForm() {
+  document.getElementById("form").reset();
 }
