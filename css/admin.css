@@ -20,3 +20,6 @@
 #select{
      margin:50px;
 }
+.modal-body form span{
+    color:red;
+}

@@ -1,5 +1,8 @@
 var selectedId = null;
 var productArray = [];
+getProductArray();
+
+console.log("Product Array", productArray);
 document.getElementById("addBtn").style.display = "inline-block";
 // var searchArray = JSON.parse(localStorage.getItem("searchArray"));
 // var value = JSON.parse(localStorage.getItem("searchValue"));
@@ -57,22 +60,150 @@ function fetchProducts() {
       console.log(err);
     });
 }
-
-function addProduct() {
-  var product = getProduct();
+function validateDesc(desc) {
+  if (desc.trim() == "") {
+    document.getElementById("spanDesc").innerText = "mô tả không được để trống";
+    return false;
+  } else {
+    document.getElementById("spanDesc").innerText = "";
+    return true;
+  }
+}
+function validateName(name) {
+  if (name.trim() == "") {
+    document.getElementById("spanName").innerText = "Tên không được để trống";
+    return false;
+  } else {
+    document.getElementById("spanName").innerText = "";
+    return true;
+  }
+}
+function validateFrontCamera(frontCamera) {
+  if (frontCamera.trim() == "") {
+    document.getElementById("spanfrontCamera").innerText =
+      "Cam trước không được để trống";
+    return false;
+  } else {
+    document.getElementById("spanfrontCamera").innerText = "";
+    return true;
+  }
+}
+function validateBackCamera(backCamera) {
+  if (backCamera.trim() == "") {
+    document.getElementById("spanbackCamera").innerText =
+      "Cam sau không được để trống";
+    return false;
+  } else {
+    document.getElementById("spanbackCamera").innerText = "";
+    return true;
+  }
+}
+function validateImg(img) {
+  var res = /^(ftp|http|https):\/\/[^ "]+$/;
+  var isValid = res.test(img);
+  if (img.trim() == "") {
+    document.getElementById("spanImage").innerText =
+      "link image không được để trống";
+    return false;
+  } else if (!isValid) {
+    document.getElementById("spanImage").innerText = "link không hợp lệ";
+    return false;
+  } else {
+    document.getElementById("spanImage").innerText = "";
+    return true;
+  }
+}
+function validateType(type) {
+  if (type.trim() == "") {
+    document.getElementById("spanType").innerText = "Type không được để trống";
+    return false;
+  } else if (type != "Samsung" && type != "Iphone") {
+    document.getElementById("spanType").innerText =
+      "Type phải là Iphone hoặc Samsung";
+    return false;
+  } else {
+    document.getElementById("spanType").innerText = "";
+    return true;
+  }
+}
+function validatePrice(price) {
+  if (price.trim() == "") {
+    document.getElementById("spanPrice").innerText = "Giá không được để trống";
+    return false;
+  } else if (isNaN(price)) {
+    document.getElementById("spanPrice").innerText = "Giá phải là số";
+    return false;
+  } else {
+    document.getElementById("spanPrice").innerText = "";
+    return true;
+  }
+}
+function validateId(id) {
+  var isErr = false;
+  for (var i = 0; i < productArray.length; i++) {
+    if (productArray[i].id == id) {
+      isErr = true;
+    }
+  }
+  if (id.trim() == "") {
+    document.getElementById("spanId").innerText = "Id không được để trống";
+    return false;
+  } else if (isErr) {
+    document.getElementById("spanId").innerText = "Id đã tồn tại";
+    return false;
+  } else {
+    document.getElementById("spanId").innerText = "";
+    return true;
+  }
+}
+function getProductArray() {
   axios({
     url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product`,
-    method: "POST",
-    data: product,
+    method: "GET",
   })
     .then((res) => {
-      fetchProducts();
-      productArray.push(product);
-      searchType();
+      for (var i = 0; i < res.data.length; i++) {
+        productArray.push(res.data[i]);
+      }
     })
     .catch((err) => {
       console.log(err);
     });
+}
+function addProduct() {
+  var id = document.getElementById("id").value;
+  var price = document.getElementById("price").value;
+  var name = document.getElementById("name").value;
+  var backCamera = document.getElementById("backCamera").value;
+  var frontCamera = document.getElementById("frontCamera").value;
+  var img = document.getElementById("img").value;
+  var desc = document.getElementById("desc").value;
+  var type = document.getElementById("type").value;
+  var isValid =
+    validateId(id) &
+    validatePrice(price) &
+    validateType(type) &
+    validateImg(img) &
+    validateDesc(desc) &
+    validateBackCamera(backCamera) &
+    validateFrontCamera(frontCamera) &
+    validateName(name);
+  if (isValid) {
+    var product = getProduct();
+    axios({
+      url: `https://6531230d4d4c2e3f333c7393.mockapi.io/product`,
+      method: "POST",
+      data: product,
+    })
+      .then((res) => {
+        fetchProducts();
+        productArray.push(product);
+        searchType();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 function xoa(id) {
   turnOnLoading();
