@@ -1,0 +1,72 @@
+$color-blue-1: #2a73dd;
+$color-blue-2: #1d365e;
+$color-button-blue: #3730BF;
+
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+@mixin btn-theme($colorText, $colorBorder, $background) {
+    border: 2px solid $colorBorder;
+    border-radius: 4px;
+    padding: 10px 20px;
+    background: $background;
+    color: $colorText;
+}
+
+header{
+    background-color: #ffffff;
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    nav{
+        a{
+            color: $color-blue-2;
+            transition: 0.3s;
+            text-decoration: none !important;
+            &:hover, &.active{
+                color: $color-blue-1;
+            }
+            &.active::before{
+                width: 100%;
+
+            }
+        }
+    }
+    .logo{
+        font-size: 40px;
+        color: $color-blue-1;
+    }
+}
+
+.banner{
+    background-image: url('../images/product-header-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    h2{
+        color: $color-blue-1;
+    }
+    h3{
+        color: $color-blue-2;
+    }
+    .info{
+        @include btn-theme($color-blue-1, $color-blue-1, #ffffff)
+    }
+    .shop{
+        @include btn-theme(#ffffff, $color-button-blue, $color-button-blue)
+    }
+    i{
+        margin-right: 5px;
+    }
+}
+
+.product-item{
+    img{
+        height: 200px;
+
+    }
+}

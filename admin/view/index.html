@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>Trang quản trị</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link
       rel="stylesheet"
@@ -18,6 +25,13 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
+      integrity="sha512-ksC7McuoU4VJ07WGtca5INyDRXzGsmhyEEJYzoWBkjC/KwuG+IK/pFnxJFNIGmOd8pmGexOxd3FziCPZXQJ4lA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!-- spinner -->
     <link
       rel="stylesheet"
@@ -25,31 +39,40 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/admin.css" />
+    <link rel="stylesheet" href="../../assets/css/index.css" />
   </head>
   <body>
-    <div id="spinner">
-      <div class="spinner-border text-warning" role="status">
-        <span class="sr-only">Loading...</span>
+    <header class="shadow-lg fixed w-full">
+      <div class="container h-20">
+        <div class="logo">HQ Shop</div>
+
+        <nav class="space-x-5">
+          <a class="active" href="#">Login</a>
+          <a href="#">Register</a>
+          <a href="#" class="hidden">Logout</a>
+        </nav>
       </div>
-    </div>
-    <div class="">
-      <!-- BEGIN BUTTOM THÊM MỚI -->
-      <button
-        type="button"
-        class="btn btn-primary ml-5"
-        data-toggle="modal"
-        data-target="#exampleModal"
-      >
-        Thêm mới sảm phẩm
-      </button>
-      <div class="search">
-        <select name="type" id="select" onchange="searchType(value)">
+    </header>
+
+    <section class="actions container pt-24 flex justify-end">
+      <div class="search flex">
+        <select name="type" id="select" onchange="searchType()">
           <option value="All">All</option>
           <option value="Samsung">Samsung</option>
           <option value="Iphone">Iphone</option>
         </select>
       </div>
+      <!-- BEGIN BUTTOM THÊM MỚI -->
+      <button
+        onclick="addCommand()"
+        type="button"
+        class="btn btn-primary flex ml-3"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+      <i class="fa fa-plus"></i>
+        Thêm sản phẩm
+      </button>
       <!-- Modal -->
       <div
         class="modal fade"
@@ -73,7 +96,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form">
                 <div class="mb-3">
                   <label for="id" class="form-label">ID</label>
                   <input
@@ -82,38 +105,47 @@
                     id="id"
                     aria-describedby="id"
                   />
+                  <span id="spanId" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                   <label for="price" class="form-label">Price</label>
                   <input type="text" class="form-control" id="price" />
+                  <span id="spanPrice"></span>
                 </div>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name</label>
                   <input type="text" class="form-control" id="name" />
+                  <span id="spanName"></span>
                 </div>
                 <div class="mb-3">
                   <label for="backCamera" class="form-label">backCamera</label>
                   <input type="text" class="form-control" id="backCamera" />
+                  <span id="spanbackCamera"></span>
                 </div>
                 <div class="mb-3">
                   <label for="frontCamera" class="form-label"
                     >frontCamera</label
                   >
                   <input type="text" class="form-control" id="frontCamera" />
+                  <span id="spanfrontCamera"></span>
                 </div>
                 <div class="mb-3">
                   <label for="img" class="form-label">Image</label>
                   <input type="text" class="form-control" id="img" />
+                  <span id="spanImage"></span>
                 </div>
                 <div class="mb-3">
                   <label for="desc" class="form-label">Description</label>
                   <input type="text" class="form-control" id="desc" />
+                  <span id="spanDesc"></span>
                 </div>
                 <div class="mb-3">
                   <label for="type" class="form-label">Type</label>
                   <input type="text" class="form-control" id="type" />
+                  <span id="spanType"></span>
                 </div>
                 <button
+                  id="addBtn"
                   type="button"
                   class="btn btn-primary"
                   onclick="addProduct()"
@@ -121,49 +153,36 @@
                   Thêm
                 </button>
                 <button
+                  id="updateBtn"
                   type="button"
                   class="btn btn-success"
                   onclick="update()"
                 >
                   Cập nhật
                 </button>
-                <button type="button" class="btn btn-warning" onclick="reset()">
+                <button
+                  onclick="resetForm()"
+                  id="resetBtn"
+                  type="button"
+                  class="btn btn-warning"
+                  onclick="reset()"
+                >
                   Reset form
                 </button>
               </form>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="product-container d-flex justify-content-center align-items-center"
-    >
-      <!-- <div class="card" style="width: 18rem" id="">
-          <div class="card-header text-center"></div>
-          <div class="list-group-item" id="name"></div>
-          <div class="list-group-item" id="price"></div>
-          <div class="list-group-item" id="screen"></div>
-          <div class="list-group-item" id="blackCamera"></div>
-          <div class="list-group-item" id="frontCamera"></div>
-          <div class="list-group-item" id="img"></div>
-          <div class="list-group-item" id="desc"></div>
-          <div class="list-group-item" id="type"></div>
-        </div> -->
-    </div>
-    <div class="giohang"></div>
+    </section>
+
+    <div id="progressDialog"></div>
+    
+
+    <section class="products container pt-5">
+      <div id="admin-products-display"></div>
+    </section>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -190,9 +209,6 @@
       referrerpolicy="no-referrer"
     ></script>
     <!-- controller -->
-    <script src="./jsCustomer/controller.js"></script>
-    <!-- my js -->
-
-    <script src="./jsAdmin/admin.js"></script>
+    <script type="module" src="../controller/index.js"></script>
   </body>
 </html>

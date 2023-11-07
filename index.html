@@ -10,6 +10,13 @@
     />
     <link
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link
@@ -18,6 +25,13 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
+      integrity="sha512-ksC7McuoU4VJ07WGtca5INyDRXzGsmhyEEJYzoWBkjC/KwuG+IK/pFnxJFNIGmOd8pmGexOxd3FziCPZXQJ4lA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!-- spinner -->
     <link
       rel="stylesheet"
@@ -25,78 +39,68 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/style.css" />
+    <!-- <link rel="stylesheet" href="./css/style.css" /> -->
+    <link rel="stylesheet" href="./assets/css/index.css" />
   </head>
 
   <body>
-    <div class="container">
-      <div class="my-5">
-        <!-- BEGIN BUTTOM THÊM MỚI -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          Launch demo modal
-        </button>
+    <header class="shadow-lg fixed w-full">
+      <div class="container h-20">
+        <div class="logo">HQ Shop</div>
 
-        <!-- Modal -->
+        <nav class="space-x-5">
+          <button>
+            <i class="fa-solid fa-cart-shopping" id="cart-icon">(0)</i>
+          </button>
+          <a class="active" href="#">Login</a>
+          <a href="#">Register</a>
+          <a href="#" class="hidden">Logout</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="banner">
+      <div class="container h-screen flex pt-20">
         <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
+          class="w-1/2 h-full flex justify-center items-start flex-col space-y-10"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">...</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Save changes
-                </button>
-              </div>
-            </div>
+          <h2 class="text-8xl font-bold">IPhone 15</h2>
+          <h3 class="text-2xl">Latest IPhone</h3>
+          <p class="text-base text-gray-400">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
+            id quam quas voluptate dignissimos voluptatibus officia
+            necessitatibus recusandae debitis eligendi, vero, distinctio velit.
+            Distinctio obcaecati veritatis quisquam iure porro vitae!
+          </p>
+          <div>
+            <button class="info" 
+            data-toggle="modal"
+            data-target="#inProgressDialog"
+            onclick="showProgressDialog()">
+              <i
+                class="fa fa-info-circle"
+              ></i
+              >Info
+            </button>
+            <button class="shop"><i class="fa fa-cart-plus"></i>Shop</button>
           </div>
         </div>
+        <div class="w-1/2 h-full flex items-center justify-center">
+          <img
+            src="./assets/images/banner.png"
+            alt=""
+            class="w-4/5 flex flex-col justify-center items-center"
+          />
+        </div>
       </div>
-      <div
-        class="product-container d-flex justify-content-center align-items-center"
-      >
-        <!-- <div class="card" style="width: 18rem" id="">
-          <div class="card-header text-center"></div>
-          <div class="list-group-item" id="name"></div>
-          <div class="list-group-item" id="price"></div>
-          <div class="list-group-item" id="screen"></div>
-          <div class="list-group-item" id="blackCamera"></div>
-          <div class="list-group-item" id="frontCamera"></div>
-          <div class="list-group-item" id="img"></div>
-          <div class="list-group-item" id="desc"></div>
-          <div class="list-group-item" id="type"></div>
-        </div> -->
-      </div>
-      <div class="giohang"></div>
-    </div>
+    </section>
+
+    <section class="products container py-20">
+      <div id="customer-products-display"></div>
+    </section>
+
+    <div id="progressDialog"></div>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -124,6 +128,9 @@
     ></script>
     <!-- controller -->
     <!-- my js -->
-    <script src="./jsCustomer/index.js"></script>
+    <!-- <script src="./jsCustomer/index.js"></script> -->
+
+    <!-- <script src="./utils/utils.js"></script> -->
+    <script type="module" src="./customer/controller/index.js"></script>
   </body>
 </html>
