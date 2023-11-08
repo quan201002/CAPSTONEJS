@@ -29,3 +29,9 @@ export function showProgressDialog(){
 export function popProgressDialog(){
     $('#progressDialog').modal('hide')
 }
+
+export function formatPrice(price){
+  let priceNum = price * 1.0
+  if (isNaN(priceNum)) return ""
+  return new Intl.NumberFormat('en-US').format(priceNum)
+}

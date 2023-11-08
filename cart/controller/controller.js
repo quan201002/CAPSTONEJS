@@ -1,3 +1,5 @@
+import { formatPrice } from "../../utils/utils.js";
+
 export function renderListCart(listCart) {
   let content = "";
   for (let i = 0; i < listCart.length; i++) {
@@ -24,7 +26,7 @@ export function renderListCart(listCart) {
           <div class="desc w-3/5">
             <div class="content flex">
               <!-- Price -->
-              <h4 class="text-lg flex w-1/3 justify-center">${listCart[i].price}</h4>
+              <h4 class="text-lg flex w-1/3 justify-center">${formatPrice(listCart[i].price)}</h4>
               <!-- Quantity -->
               <h4 class="text-lg flex w-1/3 justify-center">
                 <span class="ml-1">
