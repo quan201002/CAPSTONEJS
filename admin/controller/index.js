@@ -1,8 +1,8 @@
 import * as validate from "./validate.js"
-import { Constants } from "../../constants/constants.js";
 import * as utils from "../../utils/utils.js"
 import { getProduct } from "../../customer/controller/controller.js";
 import * as adminController from "./controller.js"
+import { ApiPath } from "../../constants/api_path.js";
 
 
 var selectedId = null;
@@ -15,7 +15,7 @@ fetchProducts();
 function fetchProducts() {
   utils.showProgressDialog()
   axios({
-    url: Constants.apiDomain.concat(Constants.productEndPoint),
+    url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
     method: "GET",
   })
     .then(function (res) {
@@ -48,7 +48,7 @@ function addProduct() {
   if (isValid) {
     utils.showProgressDialog()
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
       method: "POST",
       data: product,
     })
@@ -67,7 +67,7 @@ function deleteProduct(id) {
   utils.showProgressDialog()
   if (isSearch) {
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint).concat(`/${id}`),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
       method: "DELETE",
     })
       .then((res) => {
@@ -88,7 +88,7 @@ function deleteProduct(id) {
       });
   } else {
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint).concat(`/${id}`),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
       method: "DELETE",
     })
       .then((res) => {
@@ -111,7 +111,7 @@ function sua(id) {
   selectedId = id;
 
   axios({
-    url: Constants.apiDomain.concat(Constants.productEndPoint).concat(`/${id}`),
+    url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
     method: "GET",
   })
     .then((res) => {
@@ -129,7 +129,7 @@ function update() {
     var product = getProduct();
     console.log(product);
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint).concat(`/${selectedId}`),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${selectedId}`),
       method: "PUT",
       data: product,
     })
@@ -148,7 +148,7 @@ function update() {
     var product = getProduct();
     console.log(product);
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint).concat(`/${selectedId}`),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${selectedId}`),
       method: "PUT",
       data: product,
     })
@@ -169,7 +169,7 @@ function searchType() {
   searchArray = [];
   if (value == "All") {
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
       method: "GET",
     })
       .then((res) => {
@@ -186,7 +186,7 @@ function searchType() {
     document.getElementById("admin-products-display").innerHTML = '';
     console.log(value);
     axios({
-      url: Constants.apiDomain.concat(Constants.productEndPoint),
+      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
       method: "GET",
     })
       .then((res) => {
