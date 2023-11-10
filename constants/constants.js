@@ -1,8 +1,1 @@
-// export class Constants{
-//     static apiDomain = 'https://6531230d4d4c2e3f333c7393.mockapi.io/'
-//     static productEndPoint = 'product'
-
-// }
-
-
-
+export const keyListCart = "list-cart";

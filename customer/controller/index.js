@@ -1,6 +1,15 @@
 import { ApiPath } from "../../constants/api_path.js";
-import { renderProductList } from "../controller/controller.js";
+import * as customerController from "../controller/controller.js";
 import { showProgressDialog, popProgressDialog } from "../../utils/utils.js";
+import { updateNumberOfCart } from "../../cart/controller/controller.js";
+import { keyListCart } from "../../constants/constants.js";
+import {
+  getObjectByKey,
+  saveObject,
+} from "../../services/local_storage_services.js";
+// import * as localStorageServices from "../../services/local_storage_services.js";
+
+var listCart = [];
 
 function fetchProducts() {
   showProgressDialog();
@@ -9,7 +18,7 @@ function fetchProducts() {
     method: "GET",
   })
     .then(function (res) {
-      renderProductList(res.data.reverse());
+      customerController.renderProductList(res.data.reverse());
       popProgressDialog();
     })
     .catch(function (err) {
@@ -18,7 +27,20 @@ function fetchProducts() {
     });
 }
 
-// turnOffLoading();
-fetchProducts();
+export function addProductToCart(product) {
+  listCart.push(product);
+  saveObject(keyListCart, listCart);
+  updateNumberOfCart();
+}
 
-function addProduct() {}
+function initListCart() {
+  listCart = getObjectByKey(keyListCart) || [];
+}
+
+function init() {
+  initListCart();
+  fetchProducts();
+  updateNumberOfCart();
+}
+
+init();

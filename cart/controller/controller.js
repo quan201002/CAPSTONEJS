@@ -1,4 +1,15 @@
 import { formatPrice } from "../../utils/utils.js";
+import * as localStorageService from "../../services/local_storage_services.js";
+import { keyListCart } from "../../constants/constants.js";
+
+export function updateNumberOfCart() {
+  let listCart = localStorageService.getObjectByKey(keyListCart);
+  if (listCart !== null && listCart.length !== null) {
+    document.getElementById(
+      "cart-icon"
+    ).innerHTML = `<span> (${listCart.length}) </span>`;
+  }
+}
 
 export function renderListCart(listCart) {
   let content = "";
@@ -26,14 +37,18 @@ export function renderListCart(listCart) {
           <div class="desc w-3/5">
             <div class="content flex">
               <!-- Price -->
-              <h4 class="text-lg flex w-1/3 justify-center">${formatPrice(listCart[i].price)}</h4>
+              <h4 class="text-lg flex w-1/3 justify-center">${formatPrice(
+                listCart[i].price
+              )}</h4>
               <!-- Quantity -->
               <h4 class="text-lg flex w-1/3 justify-center">
                 <span class="ml-1">
                   <button class="border rounded-lg py-1 px-2">
                     <i class="fa fa-minus text-green-500"></i>
                   </button>
-                  <span id="cart-item-${i}" class="mx-2">${listCart[i].quantity}</span>
+                  <span id="cart-item-${i}" class="mx-2">${
+      listCart[i].quantity
+    }</span>
                   <button class="border rounded-lg py-1 px-2">
                     <i class="fa fa-plus text-green-500"></i>
                   </button>

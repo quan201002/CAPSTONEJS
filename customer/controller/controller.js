@@ -1,4 +1,5 @@
 import { formatPrice } from "../../utils/utils.js";
+import { addProductToCart } from "./index.js";
 
 export function getProduct() {
   var id = document.getElementById("id").value;
@@ -32,10 +33,15 @@ export function getDataForm(product) {
   document.getElementById("type").value = product.type;
 }
 
+
+export function buyNow(){
+  console.log('buy now called')
+}
+
 export function renderProductList(productArr) {
   console.log(productArr)
   var content = "";
-  for (var i = 0; i < productArr.length; i++) {
+  for (let i = 0; i < productArr.length; i++) {
     var product = productArr[i];
     content += `
     <div class="product-item mx-3 my-3 border border-sky-500 rounded-lg">
@@ -50,8 +56,8 @@ export function renderProductList(productArr) {
               <h4 class="text-lg">${formatPrice(product.price)}</h4>
 
               <div class="grid grid-cols-2">
-                <button class="bg-red-200 rounded-lg mr-3 py-2 text-red-600">Add to cart</button>
-                <button class="bg-red-400 rounded-lg ml-3 py-2 text-white">Buy now</button>
+                <button id="add-cart-prod-${i}" class="bg-red-200 rounded-lg mr-3 py-2 text-red-600">Add to cart</button>
+                <button onclick="buyNow()" class="bg-red-400 rounded-lg ml-3 py-2 text-white">Buy now</button>
               </div>
             </div>
           </div>
@@ -60,5 +66,13 @@ export function renderProductList(productArr) {
   }
 
   content = `<div class="grid grid-cols-3">`.concat(content).concat(`</div>`)
+
   document.getElementById("customer-products-display").innerHTML = content
+
+  for (let i = 0; i < productArr.length; i++){
+    var func = () => {addProductToCart(productArr[i])}
+  
+    document.getElementById(`add-cart-prod-${i}`).addEventListener("click", func)
+  }
 }
+

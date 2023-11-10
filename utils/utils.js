@@ -32,6 +32,6 @@ export function popProgressDialog(){
 
 export function formatPrice(price){
   let priceNum = price * 1.0
-  if (isNaN(priceNum)) return ""
-  return new Intl.NumberFormat('en-US').format(priceNum)
+  if (isNaN(priceNum)) return "VND ---"
+  return "VND ".concat(new Intl.NumberFormat('en-US').format(priceNum))
 }
