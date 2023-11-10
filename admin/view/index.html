@@ -64,11 +64,11 @@
       </div>
       <!-- BEGIN BUTTOM THÊM MỚI -->
       <button
-        onclick="addCommand()"
         type="button"
         class="btn btn-primary flex ml-3"
         data-toggle="modal"
         data-target="#exampleModal"
+        id="add-product-btn"
       >
         <i class="fa fa-plus"></i>
         Thêm sản phẩm
@@ -211,5 +211,11 @@
     <!-- <script src="../controller/validate.js"></script>
     <script src="../controller/controller.js"></script> -->
     <script type="module" src="../controller/index.js"></script>
+
+    <!-- <script>
+      document
+        .getElementById("add-product-btn")
+        .addEventListener("click", addCommand);
+    </script> -->
   </body>
 </html>

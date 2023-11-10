@@ -12,7 +12,15 @@ var productArray = [];
 var searchArray = [];
 var isSearch = false;
 
-fetchProducts();
+init();
+
+function init() {
+  document
+    .getElementById("add-product-btn")
+    .addEventListener("click", addCommand);
+
+  fetchProducts();
+}
 
 function fetchProducts() {
   utils.showProgressDialog();
@@ -33,7 +41,7 @@ function fetchProducts() {
       utils.popProgressDialog();
     });
 }
-addProduct();
+
 function addProduct() {
   let product = getProduct();
 
@@ -101,10 +109,12 @@ export function deleteProduct(id) {
   }
 }
 
-// function addCommand() {
-//   document.getElementById("addBtn").style.display = "inline-block";
-//   document.getElementById("updateBtn").style.display = "none";
-// }
+export function addCommand() {
+  document.getElementById("addBtn").style.display = "inline-block";
+  document.getElementById("updateBtn").style.display = "none";
+
+  $("#productModal").modal("show");
+}
 
 export function sua(id) {
   document.getElementById("updateBtn").style.display = "inline-block";
