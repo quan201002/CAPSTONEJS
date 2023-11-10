@@ -1,6 +1,9 @@
 import * as validate from "./validate.js";
 import * as utils from "../../utils/utils.js";
-import { getProduct } from "../../customer/controller/controller.js";
+import {
+  getProduct,
+  getDataForm,
+} from "../../customer/controller/controller.js";
 import * as adminController from "./controller.js";
 import { ApiPath } from "../../constants/api_path.js";
 
@@ -61,7 +64,7 @@ function addProduct() {
   }
 }
 
-function deleteProduct(id) {
+export function deleteProduct(id) {
   utils.showProgressDialog();
   if (isSearch) {
     axios({
@@ -103,7 +106,7 @@ function deleteProduct(id) {
 //   document.getElementById("updateBtn").style.display = "none";
 // }
 
-function sua(id) {
+export function sua(id) {
   document.getElementById("updateBtn").style.display = "inline-block";
   document.getElementById("addBtn").style.display = "none";
   selectedId = id;
@@ -113,6 +116,7 @@ function sua(id) {
     method: "GET",
   })
     .then((res) => {
+      $("#productModal").modal("show");
       getDataForm(res.data);
     })
     .catch((err) => {
