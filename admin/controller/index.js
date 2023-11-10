@@ -35,7 +35,7 @@ function addProduct() {
   let product = getProduct();
 
   var isValid =
-    validate.validateId(product.id) &&
+    validate.validateId(product.id, productArray) &&
     validate.validatePrice(product.price) &&
     validate.validateType(product.type) &&
     validate.validateImg(product.img) &&
