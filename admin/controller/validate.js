@@ -101,14 +101,13 @@ function validateId(id) {
   }
 }
 
-
 export {
-    validateBackCamera,
-    validateDesc,
-    validateFrontCamera,
-    validateId,
-    validateImg,
-    validateName,
-    validatePrice,
-    validateType,
-}
+  validateBackCamera,
+  validateDesc,
+  validateFrontCamera,
+  validateId,
+  validateImg,
+  validateName,
+  validatePrice,
+  validateType,
+};

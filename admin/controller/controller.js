@@ -16,7 +16,9 @@ export function renderProductList(productArr) {
               <div class="title-with-actions flex">
                 <h3 class="mb-2 text-xl w-full flex">${product.name}</h3>
                 <div class="product-action flex h-8 ml-2">
-                  <button class="bg-red-200 rounded-lg px-2 text-red-600"><i class="fa fa-edit"></i></button>
+                  <button class="bg-red-200 rounded-lg px-2 text-red-600"><i class="fa fa-edit" onclick="editProduct(${
+                    product.id
+                  })"></i></button>
                   <button class="bg-red-400 rounded-lg px-2 text-white ml-2" onclick="deleteProduct('${
                     product.id
                   }')"><i class="fa fa-trash"></i></button>

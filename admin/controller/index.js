@@ -1,9 +1,8 @@
-import * as validate from "./validate.js"
-import * as utils from "../../utils/utils.js"
+import * as validate from "./validate.js";
+import * as utils from "../../utils/utils.js";
 import { getProduct } from "../../customer/controller/controller.js";
-import * as adminController from "./controller.js"
+import * as adminController from "./controller.js";
 import { ApiPath } from "../../constants/api_path.js";
-
 
 var selectedId = null;
 var productArray = [];
@@ -13,28 +12,27 @@ var isSearch = false;
 fetchProducts();
 
 function fetchProducts() {
-  utils.showProgressDialog()
+  utils.showProgressDialog();
   axios({
     url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
     method: "GET",
   })
     .then(function (res) {
-      productArray = []
+      productArray = [];
       for (var i = 0; i < res.data.length; i++) {
         productArray.push(res.data[i]);
       }
       adminController.renderProductList(res.data.reverse());
-      utils.popProgressDialog()
+      utils.popProgressDialog();
     })
     .catch(function (err) {
       console.log(err);
-      utils.popProgressDialog()
+      utils.popProgressDialog();
     });
 }
-
+addProduct();
 function addProduct() {
-
-  let product = getProduct()
+  let product = getProduct();
 
   var isValid =
     validate.validateId(product.id) &&
@@ -46,7 +44,7 @@ function addProduct() {
     validate.validateFrontCamera(product.frontCamera) &&
     validate.validateName(product.name);
   if (isValid) {
-    utils.showProgressDialog()
+    utils.showProgressDialog();
     axios({
       url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
       method: "POST",
@@ -57,14 +55,14 @@ function addProduct() {
         searchType();
       })
       .catch((err) => {
-        utils.popProgressDialog()
+        utils.popProgressDialog();
         console.log(err);
       });
   }
 }
 
 function deleteProduct(id) {
-  utils.showProgressDialog()
+  utils.showProgressDialog();
   if (isSearch) {
     axios({
       url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
@@ -129,7 +127,9 @@ function update() {
     var product = getProduct();
     console.log(product);
     axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${selectedId}`),
+      url: ApiPath.apiDomain
+        .concat(ApiPath.productEndPoint)
+        .concat(`/${selectedId}`),
       method: "PUT",
       data: product,
     })
@@ -148,7 +148,9 @@ function update() {
     var product = getProduct();
     console.log(product);
     axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${selectedId}`),
+      url: ApiPath.apiDomain
+        .concat(ApiPath.productEndPoint)
+        .concat(`/${selectedId}`),
       method: "PUT",
       data: product,
     })
@@ -183,7 +185,7 @@ function searchType() {
       });
     console.log("searchArray:", searchArray);
   } else {
-    document.getElementById("admin-products-display").innerHTML = '';
+    document.getElementById("admin-products-display").innerHTML = "";
     console.log(value);
     axios({
       url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
