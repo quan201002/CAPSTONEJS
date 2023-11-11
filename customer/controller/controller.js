@@ -33,13 +33,12 @@ export function getDataForm(product) {
   document.getElementById("type").value = product.type;
 }
 
-
-export function buyNow(){
-  console.log('buy now called')
+export function buyNow() {
+  console.log("buy now called");
 }
 
 export function renderProductList(productArr) {
-  console.log(productArr)
+  console.log(productArr);
   var content = "";
   for (let i = 0; i < productArr.length; i++) {
     var product = productArr[i];
@@ -62,17 +61,20 @@ export function renderProductList(productArr) {
             </div>
           </div>
         </div>
-    `
+    `;
   }
 
-  content = `<div class="grid grid-cols-3">`.concat(content).concat(`</div>`)
+  content = `<div class="grid grid-cols-3">`.concat(content).concat(`</div>`);
 
-  document.getElementById("customer-products-display").innerHTML = content
+  document.getElementById("customer-products-display").innerHTML = content;
 
-  for (let i = 0; i < productArr.length; i++){
-    var func = () => {addProductToCart(productArr[i])}
-  
-    document.getElementById(`add-cart-prod-${i}`).addEventListener("click", func)
+  for (let i = 0; i < productArr.length; i++) {
+    var func = () => {
+      addProductToCart(productArr[i]);
+    };
+
+    document
+      .getElementById(`add-cart-prod-${i}`)
+      .addEventListener("click", func);
   }
 }
-
