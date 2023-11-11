@@ -1,4 +1,5 @@
 import { formatPrice } from "../../utils/utils.js";
+import { addProductToCart } from "../../cart/controller/index.js";
 
 export function getProduct() {
   var id = document.getElementById("id").value;
@@ -33,9 +34,9 @@ export function getDataForm(product) {
 }
 
 export function renderProductList(productArr) {
-  console.log(productArr)
+  console.log(productArr);
   var content = "";
-  for (var i = 0; i < productArr.length; i++) {
+  for (let i = 0; i < productArr.length; i++) {
     var product = productArr[i];
     content += `
     <div class="product-item mx-3 my-3 border border-sky-500 rounded-lg">
@@ -47,18 +48,28 @@ export function renderProductList(productArr) {
             <div class="content">
               <h3 class="my-2 text-xl">${product.name}</h3>
               <p class="text-sm text-gray-500 text-justify">${product.desc}</p>
-              <h4 class="text-lg">${formatPrice(product.price)}</h4>
+              
 
-              <div class="grid grid-cols-2">
-                <button class="bg-red-200 rounded-lg mr-3 py-2 text-red-600">Add to cart</button>
-                <button class="bg-red-400 rounded-lg ml-3 py-2 text-white">Buy now</button>
+              <div class="grid grid-cols-2 content-center">
+                <h4 class="text-lg">${formatPrice(product.price)}</h4>
+                <button id="add-cart-prod-${i}" class="bg-red-200 rounded-lg mr-3 text-red-600">Add to cart</button>
               </div>
             </div>
           </div>
         </div>
-    `
+    `;
   }
 
-  content = `<div class="grid grid-cols-3">`.concat(content).concat(`</div>`)
-  document.getElementById("customer-products-display").innerHTML = content
+  content = `<div class="grid grid-cols-3">`.concat(content).concat(`</div>`);
+
+  document.getElementById("customer-products-display").innerHTML = content;
+
+  for (let i = 0; i < productArr.length; i++) {
+    var addProductFunc = () => {
+      addProductToCart(productArr[i]);
+    };
+    document
+      .getElementById(`add-cart-prod-${i}`)
+      .addEventListener("click", addProductFunc);
+  }
 }

@@ -1,6 +1,14 @@
 import { ApiPath } from "../../constants/api_path.js";
-import { renderProductList } from "../controller/controller.js";
+import * as customerController from "../controller/controller.js";
 import { showProgressDialog, popProgressDialog } from "../../utils/utils.js";
+import { updateNumberOfCart } from "../../cart/controller/controller.js";
+
+init();
+
+function init() {
+  fetchProducts();
+  updateNumberOfCart();
+}
 
 function fetchProducts() {
   showProgressDialog();
@@ -9,7 +17,7 @@ function fetchProducts() {
     method: "GET",
   })
     .then(function (res) {
-      renderProductList(res.data.reverse());
+      customerController.renderProductList(res.data.reverse());
       popProgressDialog();
     })
     .catch(function (err) {
@@ -17,8 +25,3 @@ function fetchProducts() {
       popProgressDialog();
     });
 }
-
-// turnOffLoading();
-fetchProducts();
-
-function addProduct() {}

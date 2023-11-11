@@ -1,4 +1,4 @@
-class CartItemModel{
+export class CartItemModel{
     constructor({name, price, id, img, quantity}){
         this.id = id
         this.name = name
@@ -7,7 +7,7 @@ class CartItemModel{
         this.quantity = quantity
     }
 
-    totalPrice(){
+    totalCost(){
         return parseFloat(this.price) * parseInt(this.quantity)
     }
     
