@@ -1,5 +1,5 @@
 import { formatPrice } from "../../utils/utils.js";
-import { sua, deleteProduct } from "./index.js";
+import { sua, deleteProduct, addProduct, update, searchType } from "./index.js";
 
 export function renderProductList(productArr) {
   var content = "";
@@ -44,7 +44,6 @@ export function renderProductList(productArr) {
         `;
   }
   document.getElementById("admin-products-display").innerHTML = content;
-
   for (let i = 0; i < productArr.length; i++) {
     var editFunc = () => {
       sua(productArr[i].id);
@@ -60,4 +59,16 @@ export function renderProductList(productArr) {
       .getElementById(`delete-prod-${i}`)
       .addEventListener("click", deleteFunc);
   }
+  var updateFunc = () => {
+    update();
+  };
+  document.getElementById(`updateBtn`).addEventListener("click", updateFunc);
 }
+var addFunc = () => {
+  addProduct();
+};
+document.getElementById(`addBtn`).addEventListener("click", addFunc);
+var searchFunc = () => {
+  searchType();
+};
+document.getElementById(`select`).addEventListener("onchange", searchFunc);

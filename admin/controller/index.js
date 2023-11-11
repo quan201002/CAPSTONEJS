@@ -6,6 +6,7 @@ import {
 } from "../../customer/controller/controller.js";
 import * as adminController from "./controller.js";
 import { ApiPath } from "../../constants/api_path.js";
+import { renderProductList } from "./controller.js";
 
 var selectedId = null;
 var productArray = [];
@@ -18,7 +19,7 @@ function init() {
   document
     .getElementById("add-product-btn")
     .addEventListener("click", addCommand);
-
+  document.getElementById("select").addEventListener("onchange", searchType);
   fetchProducts();
 }
 
@@ -42,9 +43,11 @@ function fetchProducts() {
     });
 }
 
-function addProduct() {
-  let product = getProduct();
-
+export function addProduct() {
+  console.log(productArray);
+  utils.showProgressDialog();
+  var product = getProduct();
+  console.log(product);
   var isValid =
     validate.validateId(product.id, productArray) &&
     validate.validatePrice(product.price) &&
@@ -112,13 +115,15 @@ export function deleteProduct(id) {
 export function addCommand() {
   document.getElementById("addBtn").style.display = "inline-block";
   document.getElementById("updateBtn").style.display = "none";
-
+  document.getElementById("id").disabled = false;
+  resetForm();
   $("#productModal").modal("show");
 }
 
 export function sua(id) {
   document.getElementById("updateBtn").style.display = "inline-block";
   document.getElementById("addBtn").style.display = "none";
+  document.getElementById("id").disabled = true;
   selectedId = id;
 
   axios({
@@ -134,51 +139,62 @@ export function sua(id) {
     });
 }
 
-function update() {
+export function update() {
+  var product = getProduct();
+  var isValid =
+    validate.validatePrice(product.price) &&
+    validate.validateType(product.type) &&
+    validate.validateImg(product.img) &&
+    validate.validateDesc(product.desc) &&
+    validate.validateBackCamera(product.backCamera) &&
+    validate.validateFrontCamera(product.frontCamera) &&
+    validate.validateName(product.name);
   console.log(selectedId);
   // turnOnLoading();
-  if (isSearch) {
-    var product = getProduct();
-    console.log(product);
-    axios({
-      url: ApiPath.apiDomain
-        .concat(ApiPath.productEndPoint)
-        .concat(`/${selectedId}`),
-      method: "PUT",
-      data: product,
-    })
-      .then((res) => {
-        var vitri = searchArray.findIndex((item) => {
-          return item.id == selectedId;
+  if (isValid) {
+    if (isSearch) {
+      var product = getProduct();
+      console.log(product);
+      axios({
+        url: ApiPath.apiDomain
+          .concat(ApiPath.productEndPoint)
+          .concat(`/${selectedId}`),
+        method: "PUT",
+        data: product,
+      })
+        .then((res) => {
+          var vitri = searchArray.findIndex((item) => {
+            return item.id == selectedId;
+          });
+          searchArray[vitri] = product;
+          renderProductList(searchArray);
+          // turnOffLoading();
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        searchArray[vitri] = product;
-        renderProductList(searchArray);
-        // turnOffLoading();
+    } else {
+      var product = getProduct();
+      console.log(product);
+      axios({
+        url: ApiPath.apiDomain
+          .concat(ApiPath.productEndPoint)
+          .concat(`/${selectedId}`),
+        method: "PUT",
+        data: product,
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
-    var product = getProduct();
-    console.log(product);
-    axios({
-      url: ApiPath.apiDomain
-        .concat(ApiPath.productEndPoint)
-        .concat(`/${selectedId}`),
-      method: "PUT",
-      data: product,
-    })
-      .then((res) => {
-        fetchProducts();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          fetchProducts();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 }
 
 // searchType(value);
-function searchType() {
+export function searchType() {
   var value = document.getElementById("select").value;
   console.log("value:", value);
   isSearch = true;
@@ -221,6 +237,6 @@ function searchType() {
   }
 }
 
-function resetForm() {
+export function resetForm() {
   document.getElementById("form").reset();
 }
