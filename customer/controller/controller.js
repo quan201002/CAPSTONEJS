@@ -33,10 +33,6 @@ export function getDataForm(product) {
   document.getElementById("type").value = product.type;
 }
 
-export function buyNow() {
-  console.log("buy now called");
-}
-
 export function renderProductList(productArr) {
   console.log(productArr);
   var content = "";
@@ -52,11 +48,12 @@ export function renderProductList(productArr) {
             <div class="content">
               <h3 class="my-2 text-xl">${product.name}</h3>
               <p class="text-sm text-gray-500 text-justify">${product.desc}</p>
-              <h4 class="text-lg">${formatPrice(product.price)}</h4>
+              
 
-              <div class="grid grid-cols-2">
-                <button id="add-cart-prod-${i}" class="bg-red-200 rounded-lg mr-3 py-2 text-red-600">Add to cart</button>
-                <button onclick="buyNow()" class="bg-red-400 rounded-lg ml-3 py-2 text-white">Buy now</button>
+              <div class="grid grid-cols-2 content-center">
+                <h4 class="text-lg">${formatPrice(product.price)}</h4>
+                <button id="add-cart-prod-${i}" class="bg-red-200 rounded-lg mr-3 text-red-600">Add to cart</button>
+              
               </div>
             </div>
           </div>
@@ -69,12 +66,17 @@ export function renderProductList(productArr) {
   document.getElementById("customer-products-display").innerHTML = content;
 
   for (let i = 0; i < productArr.length; i++) {
-    var func = () => {
+    var addProductFunc = () => {
       addProductToCart(productArr[i]);
     };
 
+    // var buyProductFunc = () => {
+    //   addProductToCart(productArr[i]);
+    //   buyNow();
+    // };
+
     document
       .getElementById(`add-cart-prod-${i}`)
-      .addEventListener("click", func);
+      .addEventListener("click", addProductFunc);
   }
 }
