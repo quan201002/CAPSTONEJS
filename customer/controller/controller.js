@@ -1,5 +1,5 @@
 import { formatPrice } from "../../utils/utils.js";
-import { addProductToCart } from "./index.js";
+import { addProductToCart } from "../../cart/controller/index.js";
 
 export function getProduct() {
   var id = document.getElementById("id").value;
@@ -53,7 +53,6 @@ export function renderProductList(productArr) {
               <div class="grid grid-cols-2 content-center">
                 <h4 class="text-lg">${formatPrice(product.price)}</h4>
                 <button id="add-cart-prod-${i}" class="bg-red-200 rounded-lg mr-3 text-red-600">Add to cart</button>
-              
               </div>
             </div>
           </div>
@@ -69,12 +68,6 @@ export function renderProductList(productArr) {
     var addProductFunc = () => {
       addProductToCart(productArr[i]);
     };
-
-    // var buyProductFunc = () => {
-    //   addProductToCart(productArr[i]);
-    //   buyNow();
-    // };
-
     document
       .getElementById(`add-cart-prod-${i}`)
       .addEventListener("click", addProductFunc);
