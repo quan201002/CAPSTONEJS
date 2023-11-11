@@ -1,7 +1,7 @@
 import * as utils from "../../utils/utils.js";
 import * as cartController from "./controller.js";
 import { ApiPath } from "../../constants/api_path.js";
-import { localStorageServices } from "../../services/local_storage_services.js";
+import { getObjectByKey } from "../../services/local_storage_services.js";
 import { keyListCart } from "../../constants/constants.js";
 
 var listCart = [];
@@ -29,5 +29,6 @@ function fetchCart() {
   //     console.log(err);
   //   //   utils.popProgressDialog()
   //   });
-  listCart = localStorageServices.getObjectByKey(keyListCart);
+  listCart = getObjectByKey(keyListCart);
+  cartController.renderListCart(listCart.reverse());
 }
