@@ -1,8 +1,9 @@
 import { formatPrice } from "../../utils/utils.js";
+import { sua, deleteProduct, addProduct, update, searchType } from "./index.js";
 
 export function renderProductList(productArr) {
   var content = "";
-  for (var i = 0; i < productArr.length; i++) {
+  for (let i = 0; i < productArr.length; i++) {
     var product = productArr[i];
     content += `
       <div class="product-item my-3 border border-sky-500 rounded-lg flex">
@@ -16,10 +17,8 @@ export function renderProductList(productArr) {
               <div class="title-with-actions flex">
                 <h3 class="mb-2 text-xl w-full flex">${product.name}</h3>
                 <div class="product-action flex h-8 ml-2">
-                  <button class="bg-red-200 rounded-lg px-2 text-red-600"><i class="fa fa-edit"></i></button>
-                  <button class="bg-red-400 rounded-lg px-2 text-white ml-2" onclick="deleteProduct('${
-                    product.id
-                  }')"><i class="fa fa-trash"></i></button>
+                  <button id="edit-prod-${i}" class="bg-red-200 rounded-lg px-2 text-red-600"><i class="fa fa-edit"></i></button>
+                  <button id="delete-prod-${i}" class="bg-red-400 rounded-lg px-2 text-white ml-2"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               
@@ -45,4 +44,31 @@ export function renderProductList(productArr) {
         `;
   }
   document.getElementById("admin-products-display").innerHTML = content;
+  for (let i = 0; i < productArr.length; i++) {
+    var editFunc = () => {
+      sua(productArr[i].id);
+    };
+    var deleteFunc = () => {
+      deleteProduct(productArr[i].id);
+    };
+
+    document
+      .getElementById(`edit-prod-${i}`)
+      .addEventListener("click", editFunc);
+    document
+      .getElementById(`delete-prod-${i}`)
+      .addEventListener("click", deleteFunc);
+  }
+  var updateFunc = () => {
+    update();
+  };
+  document.getElementById(`updateBtn`).addEventListener("click", updateFunc);
 }
+var addFunc = () => {
+  addProduct();
+};
+document.getElementById(`addBtn`).addEventListener("click", addFunc);
+var searchFunc = () => {
+  searchType();
+};
+document.getElementById(`select`).addEventListener("onchange", searchFunc);

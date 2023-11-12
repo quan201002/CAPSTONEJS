@@ -82,7 +82,7 @@ function validatePrice(price) {
   }
 }
 
-function validateId(id) {
+function validateId(id, productArray) {
   var isErr = false;
   for (var i = 0; i < productArray.length; i++) {
     if (productArray[i].id == id) {
@@ -101,14 +101,13 @@ function validateId(id) {
   }
 }
 
-
 export {
-    validateBackCamera,
-    validateDesc,
-    validateFrontCamera,
-    validateId,
-    validateImg,
-    validateName,
-    validatePrice,
-    validateType,
-}
+  validateBackCamera,
+  validateDesc,
+  validateFrontCamera,
+  validateId,
+  validateImg,
+  validateName,
+  validatePrice,
+  validateType,
+};

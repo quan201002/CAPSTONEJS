@@ -64,19 +64,19 @@
       </div>
       <!-- BEGIN BUTTOM THÊM MỚI -->
       <button
-        onclick="addCommand()"
         type="button"
         class="btn btn-primary flex ml-3"
         data-toggle="modal"
         data-target="#exampleModal"
+        id="add-product-btn"
       >
-      <i class="fa fa-plus"></i>
+        <i class="fa fa-plus"></i>
         Thêm sản phẩm
       </button>
       <!-- Modal -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="productModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -177,7 +177,6 @@
     </section>
 
     <div id="progressDialog"></div>
-    
 
     <section class="products container pt-5">
       <div id="admin-products-display"></div>
@@ -209,6 +208,8 @@
       referrerpolicy="no-referrer"
     ></script>
     <!-- controller -->
+    <script src="../controller/validate.js"></script>
+    <script src="../controller/controller.js"></script>
     <script type="module" src="../controller/index.js"></script>
   </body>
 </html>
