@@ -1,4 +1,16 @@
 .product-container{
-    height:100vh;
+    height:750px;
     width: 100vw;
+}
+.card {
+    height: 20px;
+}
+.card img{
+    width:100%
+}
+.gio-hang{
+    width:100vw;
+    height: 600px;  
+    display:flex;
+    
 }
