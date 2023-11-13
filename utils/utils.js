@@ -1,5 +1,7 @@
-export function showProgressDialog(){
-    document.getElementById("progressDialog").innerHTML = `
+const maxTextLength = 50;
+
+export function showProgressDialog() {
+  document.getElementById("progressDialog").innerHTML = `
     <div
       class="modal fade"
       data-bs-backdrop='static'
@@ -21,17 +23,29 @@ export function showProgressDialog(){
           </div>
         </div>
       </div>
-    </div>`
+    </div>`;
 
-    $('#progressDialog').modal('show')
+  $("#progressDialog").modal("show");
 }
 
-export function popProgressDialog(){
-    $('#progressDialog').modal('hide')
+export function popProgressDialog() {
+  $("#progressDialog").modal("hide");
 }
 
-export function formatPrice(price){
-  let priceNum = price * 1.0
-  if (isNaN(priceNum)) return "VND ---"
-  return "VND ".concat(new Intl.NumberFormat('en-US').format(priceNum))
+export function formatPrice(price, shoudAddUnit = true) {
+  let priceNum = price * 1.0;
+  let unit = "";
+  if (shoudAddUnit) {
+    unit = "VND ";
+  }
+  if (isNaN(priceNum)) return unit.concat("---");
+  return unit.concat(new Intl.NumberFormat("en-US").format(priceNum));
+}
+
+export function shortenText(text) {
+  if (text == null) return "";
+  if (text.length <= maxTextLength) {
+    return text;
+  }
+  return text.substring(0, maxTextLength - 3).concat("...");
 }

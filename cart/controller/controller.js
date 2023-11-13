@@ -9,10 +9,11 @@ import {
 } from "./index.js";
 
 export function purchase() {
+  console.log("purchase called");
   localStorageService.saveObject(keyListCart, []);
   fetchCart();
-  updateNumberOfCart()
-  $("#cartModal").modal('hide')
+  updateNumberOfCart();
+  $("#cartModal").modal("hide");
 }
 
 export function showReceipt(listCart) {
@@ -23,17 +24,17 @@ export function showReceipt(listCart) {
     total += listCart[i].totalCost();
     content += `
     <div class="my-3 flex">
-      <h6 class="w-1/4 flex">
+      <h6 class="w-1/4 flex justify-start">
         ${listCart[i].name}
       </h6>
       <h6 class="w-1/4 flex justify-center">
         ${listCart[i].quantity}
       </h6>
       <h6 class="w-1/4 flex justify-center">
-        ${listCart[i].price}
+        ${formatPrice(listCart[i].price, false)}
       </h6>
-      <h6 class="w-1/4 flex justify-center">
-        ${listCart[i].totalCost()}
+      <h6 class="w-1/4 flex justify-end">
+        ${formatPrice(listCart[i].totalCost(), false)}
       </h6>
     </div>
     `;
@@ -41,9 +42,9 @@ export function showReceipt(listCart) {
 
   content += `
     <div class="flex mt-3">
-      <h5 class="flex w-3/4"> Tổng cộng
+      <h5 class="flex w-1/2 font-bold"> Tổng cộng (VND)
       </h5>
-      <h6 class="flex w-1/4 justify-center"> ${total}
+      <h6 class="flex w-1/2 justify-end"> ${formatPrice(total, false)}
       </h6>
     </div>
   `;
@@ -53,9 +54,10 @@ export function showReceipt(listCart) {
 export function updateNumberOfCart() {
   let listCart = localStorageService.getObjectByKey(keyListCart);
   if (listCart !== null && listCart.length !== null) {
-    document.getElementById(
-      "cart-icon"
-    ).innerHTML = `<span> (${listCart.length}) </span>`;
+    var cartIconElement = document.getElementById("cart-icon");
+    if (cartIconElement !== null) {
+      cartIconElement.innerHTML = `<span> (${listCart.length}) </span>`;
+    }
   }
 }
 

@@ -44,25 +44,41 @@
   <body>
     <header class="shadow-lg fixed w-full">
       <div class="container h-20">
-        <div class="logo">HQ Shop</div>
-
-        <nav class="space-x-5">
-          <a class="active" href="#">Login</a>
-          <a href="#">Register</a>
-          <a href="#" class="hidden">Logout</a>
-        </nav>
+        <div class="logo">
+          <a href="../../index.html" class="hover:no-underline">HQ Shop</a>
+        </div>
       </div>
     </header>
 
     <section class="actions container pt-24 flex justify-end">
-      <div class="search flex">
-        <select name="type" id="select" onchange="searchType()">
-          <option value="All">All</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Iphone">Iphone</option>
+      <!-- Search product by name -->
+      <div class="search-product flex">
+        <div class="input-group">
+          <div class="input-group-btn" id="search-product-btn">
+            <span class="btn btn-default border">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tìm kiếm sản phẩm"
+            id="search-product-input"
+          />
+        </div>
+      </div>
+
+      <!-- Sort price -->
+      <div class="sort-price flex ml-3 items-center border px-2 rounded-lg">
+        <span class="flex mr-2">Sắp xếp</span>
+        <select name="type" id="sort-price-type">
+          <option value=""></option>
+          <option value="priceLowHigh">Giá: thấp đến cao</option>
+          <option value="priceHighLow">Giá: cao đến thấp</option>
         </select>
       </div>
-      <!-- BEGIN BUTTOM THÊM MỚI -->
+
+      <!-- Add a new product -->
       <button
         type="button"
         class="btn btn-primary flex ml-3"
@@ -118,13 +134,18 @@
                   <span id="spanName"></span>
                 </div>
                 <div class="mb-3">
-                  <label for="backCamera" class="form-label">backCamera</label>
+                  <label for="backCamera" class="form-label">Screen</label>
+                  <input type="text" class="form-control" id="screen" />
+                  <span id="spanScreen"></span>
+                </div>
+                <div class="mb-3">
+                  <label for="backCamera" class="form-label">Back camera</label>
                   <input type="text" class="form-control" id="backCamera" />
                   <span id="spanbackCamera"></span>
                 </div>
                 <div class="mb-3">
                   <label for="frontCamera" class="form-label"
-                    >frontCamera</label
+                    >Front camera</label
                   >
                   <input type="text" class="form-control" id="frontCamera" />
                   <span id="spanfrontCamera"></span>
@@ -144,29 +165,13 @@
                   <input type="text" class="form-control" id="type" />
                   <span id="spanType"></span>
                 </div>
-                <button
-                  id="addBtn"
-                  type="button"
-                  class="btn btn-primary"
-                  onclick="addProduct()"
-                >
+                <button id="addBtn" type="button" class="btn btn-primary">
                   Thêm
                 </button>
-                <button
-                  id="updateBtn"
-                  type="button"
-                  class="btn btn-success"
-                  onclick="update()"
-                >
+                <button id="updateBtn" type="button" class="btn btn-success">
                   Cập nhật
                 </button>
-                <button
-                  onclick="resetForm()"
-                  id="resetBtn"
-                  type="button"
-                  class="btn btn-warning"
-                  onclick="reset()"
-                >
+                <button id="resetBtn" type="button" class="btn btn-warning">
                   Reset form
                 </button>
               </form>
@@ -208,8 +213,8 @@
       referrerpolicy="no-referrer"
     ></script>
     <!-- controller -->
-    <script src="../controller/validate.js"></script>
-    <script src="../controller/controller.js"></script>
+    <!-- <script src="../controller/validate.js"></script>
+    <script src="../controller/controller.js"></script> -->
     <script type="module" src="../controller/index.js"></script>
   </body>
 </html>

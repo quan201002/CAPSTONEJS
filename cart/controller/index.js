@@ -16,13 +16,19 @@ function init() {
   cartController.updateNumberOfCart();
   fetchCart();
 
-  document.getElementById("open-cart-modal-btn").addEventListener("click", () => {
-    showReceipt(listCart);
-  })
+  var openCartModalBtn = document.getElementById("open-cart-modal-btn");
+  if (openCartModalBtn !== null) {
+    openCartModalBtn.addEventListener("click", () => {
+      showReceipt(listCart);
+    });
+  }
 
-  document.getElementById("purchase-btn").addEventListener("click", () => {
-    purchase()
-  })
+  var purchaseBtn = document.getElementById("purchase-btn");
+  if (purchaseBtn !== null) {
+    purchaseBtn.addEventListener("click", () => {
+      purchase();
+    });
+  }
 }
 
 export function fetchCart() {
@@ -113,7 +119,9 @@ export function addProductToCart(product) {
 
   console.log(listCart);
   saveObject(keyListCart, listCart);
-  updateNumberOfCart();
+  cartController.updateNumberOfCart();
 
-  alert(`${messageAddToCart}: ${product.name}`);
+  setTimeout(() => {
+    alert(`${messageAddToCart}: ${product.name}`);
+  }, 500);
 }

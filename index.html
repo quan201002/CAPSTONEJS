@@ -46,7 +46,9 @@
   <body>
     <header class="shadow-lg fixed w-full">
       <div class="container h-20">
-        <div class="logo">HQ Shop</div>
+        <div class="logo">
+          <a href="./index.html" class="hover:no-underline">HQ Shop</a>
+        </div>
 
         <nav class="space-x-5">
           <a href="./cart/view/index.html">
@@ -85,10 +87,39 @@
     </section>
 
     <section class="products container py-20">
+      <div class="search flex justify-end mr-3 mb-3">
+        <select name="type" id="filter-type">
+          <option value="All">All</option>
+          <option value="Samsung">Samsung</option>
+          <option value="Iphone">Iphone</option>
+        </select>
+      </div>
+
       <div id="customer-products-display"></div>
     </section>
 
     <div id="progressDialog"></div>
+
+    <!-- Product details modal -->
+    <div
+      class="modal fade"
+      id="product-details-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="product-details-modal-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="product-details-modal-label">
+              Thông tin sản phẩm
+            </h5>
+          </div>
+          <div class="modal-body" id="product-details-body"></div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"

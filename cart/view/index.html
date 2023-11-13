@@ -41,14 +41,16 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    
+
     <link rel="stylesheet" href="../../assets/css/index.css" />
   </head>
 
   <body>
     <header class="shadow-lg fixed w-full">
       <div class="container h-20">
-        <div class="logo">HQ Shop</div>
+        <div class="logo">
+          <a href="../../index.html" class="hover:no-underline">HQ Shop</a>
+        </div>
 
         <nav class="space-x-5">
           <button>
@@ -64,9 +66,15 @@
       </h2>
 
       <div class="flex justify-end items-end container">
-        <button id="open-cart-modal-btn" class="px-3 py-2 rounded-md bg-blue-600 text-white" data-bs-toggle="modal" data-bs-target="#cartModal">Thanh toán</button>
+        <button
+          id="open-cart-modal-btn"
+          class="px-3 py-2 rounded-md bg-blue-600 text-white"
+          data-bs-toggle="modal"
+          data-bs-target="#cartModal"
+        >
+          Thanh toán
+        </button>
       </div>
-      
 
       <div
         class="flex w-full mt-5 font-bold text-center justify-center container"
@@ -83,41 +91,38 @@
     <div id="progressDialog"></div>
 
     <div
-        class="modal fade"
-        id="cartModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="cartModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="cartModalLabel">Thanh toán giỏ hàng</h5>
+      class="modal fade"
+      id="cartModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="cartModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cartModalLabel">Thanh toán giỏ hàng</h5>
+          </div>
+          <div class="modal-body">
+            <div class="flex w-full font-bold">
+              <h5 class="flex w-1/4 justify-start">Tên sản phẩm</h5>
+              <h5 class="flex w-1/4 justify-center">Số lượng</h5>
+              <h5 class="flex w-1/4 justify-center">Đơn giá (VND)</h5>
+              <h5 class="flex w-1/4 justify-end">Thành tiền (VND)</h5>
             </div>
-            <div class="modal-body">
-              <div class="flex w-full font-bold container">
-                <h5 class="flex w-1/4 justify-center">
-                  Tên sản phẩm
-                </h5>
-                <h5 class="flex w-1/4 justify-center">
-                  Số lượng
-                </h5>
-                <h5 class="flex w-1/4 justify-center">
-                  Đơn giá
-                </h5>
-                <h5 class="flex w-1/4 justify-center">
-                  Thành tiền
-                </h5>
-              </div>
-              <div id="receipt" class="container"></div>
-            </div>
-            <div class="modal-footer">
-              <button class="px-3 py-2 rounded-md bg-blue-600 text-white" id="purchase-btn">Thanh toán</button>
-            </div>
+            <div id="receipt"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="px-3 py-2 rounded-md bg-blue-600 text-white"
+              id="purchase-btn"
+            >
+              Thanh toán
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script

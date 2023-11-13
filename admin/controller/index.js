@@ -1,26 +1,69 @@
 import * as validate from "./validate.js";
 import * as utils from "../../utils/utils.js";
-import {
-  getProduct,
-  getDataForm,
-} from "../../customer/controller/controller.js";
 import * as adminController from "./controller.js";
 import { ApiPath } from "../../constants/api_path.js";
-import { renderProductList } from "./controller.js";
+import * as dictionary from "../../constants/dictionary.js"
 
 var selectedId = null;
 var productArray = [];
-var searchArray = [];
-var isSearch = false;
 
 init();
 
 function init() {
-  document
-    .getElementById("add-product-btn")
-    .addEventListener("click", addCommand);
-  document.getElementById("select").addEventListener("onchange", searchType);
   fetchProducts();
+
+  addProductEvent();
+  addSearchEvent();
+  addProductModalEvent();
+  addSortByPriceEvent();
+  updateProductModalEvent();
+  resetFormModalEvent();
+}
+
+function resetFormModalEvent() {
+  var resetFormModalElement = document.getElementById("resetBtn");
+  if (resetFormModalElement !== null) {
+    resetFormModalElement.addEventListener("click", resetForm);
+  }
+}
+
+function updateProductModalEvent() {
+  var updateProductModalElement = document.getElementById("updateBtn");
+  if (updateProductModalElement !== null) {
+    updateProductModalElement.addEventListener("click", update);
+  }
+}
+
+function addSortByPriceEvent() {
+  var sortByPriceElement = document.getElementById("sort-price-type");
+  if (sortByPriceElement !== null) {
+    sortByPriceElement.addEventListener("change", () => {
+      adminController.filterListProduct(productArray);
+    });
+  }
+}
+
+function addProductModalEvent() {
+  var addProductModalElement = document.getElementById("addBtn");
+  if (addProductModalElement !== null) {
+    addProductModalElement.addEventListener("click", addProduct);
+  }
+}
+
+function addProductEvent() {
+  var addProductElement = document.getElementById("add-product-btn");
+  if (addProductElement !== null) {
+    addProductElement.addEventListener("click", addCommand);
+  }
+}
+
+function addSearchEvent() {
+  var searchBtnElement = document.getElementById("search-product-btn");
+  if (searchBtnElement !== null) {
+    searchBtnElement.addEventListener("click", () => {
+      adminController.filterListProduct(productArray);
+    });
+  }
 }
 
 function fetchProducts() {
@@ -34,13 +77,36 @@ function fetchProducts() {
       for (var i = 0; i < res.data.length; i++) {
         productArray.push(res.data[i]);
       }
-      adminController.renderProductList(res.data.reverse());
+      adminController.renderProductList(
+        adminController.getListProductFiltered(res.data.reverse())
+      );
       utils.popProgressDialog();
     })
     .catch(function (err) {
       console.log(err);
       utils.popProgressDialog();
     });
+}
+
+function getProduct() {
+  var id = document.getElementById("id").value;
+  var price = document.getElementById("price").value;
+  var name = document.getElementById("name").value;
+  var backCamera = document.getElementById("backCamera").value;
+  var frontCamera = document.getElementById("frontCamera").value;
+  var img = document.getElementById("img").value;
+  var desc = document.getElementById("desc").value;
+  var type = document.getElementById("type").value;
+  return {
+    id: id,
+    price: price,
+    name: name,
+    backCamera: backCamera,
+    frontCamera: frontCamera,
+    img: img,
+    desc: desc,
+    type: type,
+  };
 }
 
 export function addProduct() {
@@ -66,7 +132,7 @@ export function addProduct() {
     })
       .then((res) => {
         fetchProducts();
-        searchType();
+        $("#productModal").modal("hide");
       })
       .catch((err) => {
         utils.popProgressDialog();
@@ -77,39 +143,17 @@ export function addProduct() {
 
 export function deleteProduct(id) {
   utils.showProgressDialog();
-  if (isSearch) {
-    axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
-      method: "DELETE",
+  axios({
+    url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
+    method: "DELETE",
+  })
+    .then((res) => {
+      fetchProducts()
     })
-      .then((res) => {
-        var vitri = searchArray.findIndex((item) => {
-          return item.id == id;
-        });
-        searchArray.splice(vitri, 1);
-        console.log(isSearch);
-        console.log(searchArray);
-        renderProductList(searchArray);
-        // turnOffLoading();
-        // searchType();
-        // getArray();
-        // // renderProductList(productArray);
-      })
-      .catch((err) => {
-        console.log("XOÁ THẤT BẠI", err);
-      });
-  } else {
-    axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
-      method: "DELETE",
-    })
-      .then((res) => {
-        fetchProducts();
-      })
-      .catch((err) => {
-        console.log("XOÁ THẤT BẠI", err);
-      });
-  }
+    .catch((err) => {
+      console.log(err);
+      alert(dictionary.errorDeleteFailed)
+    });
 }
 
 export function addCommand() {
@@ -120,7 +164,7 @@ export function addCommand() {
   $("#productModal").modal("show");
 }
 
-export function sua(id) {
+export function showUpdateModal(id) {
   document.getElementById("updateBtn").style.display = "inline-block";
   document.getElementById("addBtn").style.display = "none";
   document.getElementById("id").disabled = true;
@@ -132,10 +176,11 @@ export function sua(id) {
   })
     .then((res) => {
       $("#productModal").modal("show");
-      getDataForm(res.data);
+      adminController.getDataForm(res.data);
     })
     .catch((err) => {
-      console.log("Can't get product");
+      console.log(err);
+      alert(dictionary.errorGetProductFailed)
     });
 }
 
@@ -150,89 +195,22 @@ export function update() {
     validate.validateFrontCamera(product.frontCamera) &&
     validate.validateName(product.name);
   console.log(selectedId);
-  // turnOnLoading();
-  if (isValid) {
-    if (isSearch) {
-      var product = getProduct();
-      console.log(product);
-      axios({
-        url: ApiPath.apiDomain
-          .concat(ApiPath.productEndPoint)
-          .concat(`/${selectedId}`),
-        method: "PUT",
-        data: product,
-      })
-        .then((res) => {
-          var vitri = searchArray.findIndex((item) => {
-            return item.id == selectedId;
-          });
-          searchArray[vitri] = product;
-          renderProductList(searchArray);
-          // turnOffLoading();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      var product = getProduct();
-      console.log(product);
-      axios({
-        url: ApiPath.apiDomain
-          .concat(ApiPath.productEndPoint)
-          .concat(`/${selectedId}`),
-        method: "PUT",
-        data: product,
-      })
-        .then((res) => {
-          fetchProducts();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-}
 
-// searchType(value);
-export function searchType() {
-  var value = document.getElementById("select").value;
-  console.log("value:", value);
-  isSearch = true;
-  searchArray = [];
-  if (value == "All") {
+  if (isValid) {
     axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
-      method: "GET",
+      url: ApiPath.apiDomain
+        .concat(ApiPath.productEndPoint)
+        .concat(`/${selectedId}`),
+      method: "PUT",
+      data: product,
     })
       .then((res) => {
-        for (var i = 0; i < res.data.length; i++) {
-          searchArray.push(res.data[i]);
-        }
-        renderProductList(searchArray);
+        fetchProducts();
+        $("#productModal").modal("hide");
       })
       .catch((err) => {
         console.log(err);
-      });
-    console.log("searchArray:", searchArray);
-  } else {
-    document.getElementById("admin-products-display").innerHTML = "";
-    console.log(value);
-    axios({
-      url: ApiPath.apiDomain.concat(ApiPath.productEndPoint),
-      method: "GET",
-    })
-      .then((res) => {
-        for (var i = 0; i < res.data.length; i++) {
-          console.log(res.data[i].type);
-          if (res.data[i].type == value) {
-            searchArray.push(res.data[i]);
-          }
-        }
-        console.log(searchArray);
-        renderProductList(searchArray);
-      })
-      .catch((err) => {
-        console.log(err);
+        alert(dictionary.errorUpdateProductFailed)
       });
   }
 }
