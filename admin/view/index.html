@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>Trang quản trị</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link
       rel="stylesheet"
@@ -18,6 +25,13 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
+      integrity="sha512-ksC7McuoU4VJ07WGtca5INyDRXzGsmhyEEJYzoWBkjC/KwuG+IK/pFnxJFNIGmOd8pmGexOxd3FziCPZXQJ4lA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <!-- spinner -->
     <link
       rel="stylesheet"
@@ -25,36 +39,60 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/admin.css" />
+    <link rel="stylesheet" href="../../assets/css/index.css" />
   </head>
   <body>
-    <div id="spinner">
-      <div class="spinner-border text-warning" role="status">
-        <span class="sr-only">Loading...</span>
+    <header class="shadow-lg fixed w-full">
+      <div class="container h-20">
+        <div class="logo">
+          <a href="../../index.html" class="hover:no-underline">HQ Shop</a>
+        </div>
       </div>
-    </div>
-    <div class="">
-      <!-- BEGIN BUTTOM THÊM MỚI -->
-      <button
-        onclick="addCommand()"
-        type="button"
-        class="btn btn-primary ml-5"
-        data-toggle="modal"
-        data-target="#exampleModal"
-      >
-        Thêm mới sảm phẩm
-      </button>
-      <div class="search">
-        <select name="type" id="select" onchange="searchType()">
-          <option value="All">All</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Iphone">Iphone</option>
+    </header>
+
+    <section class="actions container pt-24 flex justify-end">
+      <!-- Search product by name -->
+      <div class="search-product flex">
+        <div class="input-group">
+          <div class="input-group-btn" id="search-product-btn">
+            <span class="btn btn-default border">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tìm kiếm sản phẩm"
+            id="search-product-input"
+          />
+        </div>
+      </div>
+
+      <!-- Sort price -->
+      <div class="sort-price flex ml-3 items-center border px-2 rounded-lg">
+        <span class="flex mr-2">Sắp xếp</span>
+        <select name="type" id="sort-price-type">
+          <option value=""></option>
+          <option value="priceLowHigh">Giá: thấp đến cao</option>
+          <option value="priceHighLow">Giá: cao đến thấp</option>
         </select>
       </div>
+
+      <!-- Add a new product -->
+      <button
+        type="button"
+        class="btn btn-primary flex ml-3"
+        data-toggle="modal"
+        data-target="#exampleModal"
+        id="add-product-btn"
+      >
+        <i class="fa fa-plus"></i>
+        Thêm sản phẩm
+      </button>
       <!-- Modal -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="productModal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -96,13 +134,18 @@
                   <span id="spanName"></span>
                 </div>
                 <div class="mb-3">
-                  <label for="backCamera" class="form-label">backCamera</label>
+                  <label for="backCamera" class="form-label">Screen</label>
+                  <input type="text" class="form-control" id="screen" />
+                  <span id="spanScreen"></span>
+                </div>
+                <div class="mb-3">
+                  <label for="backCamera" class="form-label">Back camera</label>
                   <input type="text" class="form-control" id="backCamera" />
                   <span id="spanbackCamera"></span>
                 </div>
                 <div class="mb-3">
                   <label for="frontCamera" class="form-label"
-                    >frontCamera</label
+                    >Front camera</label
                   >
                   <input type="text" class="form-control" id="frontCamera" />
                   <span id="spanfrontCamera"></span>
@@ -122,29 +165,13 @@
                   <input type="text" class="form-control" id="type" />
                   <span id="spanType"></span>
                 </div>
-                <button
-                  id="addBtn"
-                  type="button"
-                  class="btn btn-primary"
-                  onclick="addProduct()"
-                >
+                <button id="addBtn" type="button" class="btn btn-primary">
                   Thêm
                 </button>
-                <button
-                  id="updateBtn"
-                  type="button"
-                  class="btn btn-success"
-                  onclick="update()"
-                >
+                <button id="updateBtn" type="button" class="btn btn-success">
                   Cập nhật
                 </button>
-                <button
-                  onclick="resetForm()"
-                  id="resetBtn"
-                  type="button"
-                  class="btn btn-warning"
-                  onclick="reset()"
-                >
+                <button id="resetBtn" type="button" class="btn btn-warning">
                   Reset form
                 </button>
               </form>
@@ -152,23 +179,14 @@
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="product-container d-flex justify-content-center align-items-center"
-    >
-      <!-- <div class="card" style="width: 18rem" id="">
-          <div class="card-header text-center"></div>
-          <div class="list-group-item" id="name"></div>
-          <div class="list-group-item" id="price"></div>
-          <div class="list-group-item" id="screen"></div>
-          <div class="list-group-item" id="blackCamera"></div>
-          <div class="list-group-item" id="frontCamera"></div>
-          <div class="list-group-item" id="img"></div>
-          <div class="list-group-item" id="desc"></div>
-          <div class="list-group-item" id="type"></div>
-        </div> -->
-    </div>
-    <div class="giohang"></div>
+    </section>
+
+    <div id="progressDialog"></div>
+
+    <section class="products container pt-5">
+      <div id="admin-products-display"></div>
+    </section>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -195,9 +213,8 @@
       referrerpolicy="no-referrer"
     ></script>
     <!-- controller -->
-    <script src="./jsCustomer/controller.js"></script>
-    <!-- my js -->
-
-    <script src="./jsAdmin/admin.js"></script>
+    <!-- <script src="../controller/validate.js"></script>
+    <script src="../controller/controller.js"></script> -->
+    <script type="module" src="../controller/index.js"></script>
   </body>
 </html>
