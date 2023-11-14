@@ -67,7 +67,6 @@ function themvaoGiohang(id) {
 }
 function renderGiohang() {
   let gio = JSON.parse(localStorage.getItem("gioHang"));
-
   var content = "";
   for (var i = 0; i < gio.length; i++) {
     var product = gio[i];
@@ -75,7 +74,13 @@ function renderGiohang() {
     <div class="card" style="width: 18rem" id="${product.id}">
       <div class="card-header text-center">
           <p class="soluong">Số lượng:${product.quantity}</p>
+          <div class="modify">
+          <button class="btn btn-success" onclick="tang(${i})">+</button>
+          <button class="btn btn-danger" onclick="giam(${i})">-</button>
+          <button class="btn btn-warning" onclick="removeProduct(${i})">Remove</button>
       </div>
+      </div>
+     
       <div class="list-group-item" id="name">${product.name}</div>
       <div class="list-group-item" id="price">${product.price}</div>
       <div class="list-group-item" id="screen">${product.screen}</div>
@@ -105,4 +110,26 @@ function thanhToan() {
   localStorage.setItem("gioHang", JSON.stringify([]));
   gioHang = [];
   renderGiohang();
+}
+function tang(index) {
+  let gio = JSON.parse(localStorage.getItem("gioHang"));
+  gio[index].quantity += 1;
+  localStorage.setItem("gioHang", JSON.stringify(gio));
+  renderGiohang();
+}
+function removeProduct(index) {
+  let gio = JSON.parse(localStorage.getItem("gioHang"));
+  gio.splice(index, index + 1 * 1);
+  localStorage.setItem("gioHang", JSON.stringify(gio));
+  renderGiohang();
+}
+function giam(index) {
+  let gio = JSON.parse(localStorage.getItem("gioHang"));
+  if (gio[index].quantity == 1) {
+    removeProduct(index);
+  } else {
+    gio[index].quantity -= 1;
+    localStorage.setItem("gioHang", JSON.stringify(gio));
+    renderGiohang();
+  }
 }
