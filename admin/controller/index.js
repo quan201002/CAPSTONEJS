@@ -16,15 +16,7 @@ function init() {
   addProductModalEvent();
   addSortByPriceEvent();
   updateProductModalEvent();
-  // resetFormModalEvent();
 }
-
-// function resetFormModalEvent() {
-//   var resetFormModalElement = document.getElementById("resetBtn");
-//   if (resetFormModalElement !== null) {
-//     resetFormModalElement.addEventListener("click", resetForm);
-//   }
-// }
 
 function updateProductModalEvent() {
   var updateProductModalElement = document.getElementById("updateBtn");
@@ -79,6 +71,7 @@ function fetchProducts() {
       adminController.renderProductList(
         adminController.getListProductFiltered(res.data.reverse())
       );
+      console.log(res.data);
       utils.popProgressDialog();
     })
     .catch(function (err) {
@@ -157,22 +150,23 @@ export function deleteProduct(id) {
 export function addCommand() {
   document.getElementById("addBtn").style.display = "inline-block";
   document.getElementById("updateBtn").style.display = "none";
-  // document.getElementById("id").disabled = false;
-  // resetForm();
   $("#productModal").modal("show");
 }
 
 export function showUpdateModal(id) {
   document.getElementById("updateBtn").style.display = "inline-block";
   document.getElementById("addBtn").style.display = "none";
-  // document.getElementById("id").disabled = true;
   selectedId = id;
 
+  console.log(
+    ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`)
+  );
   axios({
     url: ApiPath.apiDomain.concat(ApiPath.productEndPoint).concat(`/${id}`),
     method: "GET",
   })
     .then((res) => {
+      console.log(res.data);
       $("#productModal").modal("show");
       adminController.getDataForm(res.data);
     })
@@ -212,7 +206,3 @@ export function update() {
       });
   }
 }
-
-// export function resetForm() {
-//   document.getElementById("form").reset();
-// }

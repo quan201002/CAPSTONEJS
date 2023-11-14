@@ -93,7 +93,6 @@ function sortProductByPrice(listProduct = []){
 }
 
 export function getDataForm(product) {
-  document.getElementById("id").value = product.id;
   document.getElementById("price").value = product.price;
   document.getElementById("name").value = product.name;
   document.getElementById("backCamera").value = product.backCamera;
@@ -101,4 +100,5 @@ export function getDataForm(product) {
   document.getElementById("img").value = product.img;
   document.getElementById("desc").value = product.desc;
   document.getElementById("type").value = product.type;
+  document.getElementById("screen").value = product.screen;
 }
