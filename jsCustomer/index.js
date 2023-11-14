@@ -75,9 +75,9 @@ function renderGiohang() {
       <div class="card-header text-center">
           <p class="soluong">Số lượng:${product.quantity}</p>
           <div class="modify">
-          <button class="btn btn-success" onclick="tang(${i})">+</button>
-          <button class="btn btn-danger" onclick="giam(${i})">-</button>
-          <button class="btn btn-warning" onclick="removeProduct(${i})">Remove</button>
+          <button class="btn btn-success" onclick="tang(${product.id})">+</button>
+          <button class="btn btn-danger" onclick="giam(${product.id})">-</button>
+          <button class="btn btn-warning" onclick="removeProduct(${product.id})">Remove</button>
       </div>
       </div>
      
@@ -111,24 +111,36 @@ function thanhToan() {
   gioHang = [];
   renderGiohang();
 }
-function tang(index) {
-  let gio = JSON.parse(localStorage.getItem("gioHang"));
-  gio[index].quantity += 1;
+function tang(id) {
+  var gio = JSON.parse(localStorage.getItem("gioHang"));
+  var vitri = gio.findIndex((item) => {
+    return item.id == id;
+  });
+  gio[vitri].quantity += 1;
   localStorage.setItem("gioHang", JSON.stringify(gio));
   renderGiohang();
 }
-function removeProduct(index) {
-  let gio = JSON.parse(localStorage.getItem("gioHang"));
-  gio.splice(index, index + 1 * 1);
+function removeProduct(id) {
+  var gio = JSON.parse(localStorage.getItem("gioHang"));
+  var vitri = gio.findIndex((item) => {
+    return item.id == id;
+  });
+  gio.splice(vitri, vitri + 1);
+  gio[vitri] == [];
+  console.log(gio);
   localStorage.setItem("gioHang", JSON.stringify(gio));
   renderGiohang();
 }
-function giam(index) {
-  let gio = JSON.parse(localStorage.getItem("gioHang"));
-  if (gio[index].quantity == 1) {
-    removeProduct(index);
+function giam(id) {
+  var gio = JSON.parse(localStorage.getItem("gioHang"));
+  var vitri = gio.findIndex((item) => {
+    return item.id == id;
+  });
+  if (gio[vitri].quantity == 1) {
+    removeProduct(id);
+    localStorage.setItem("gioHang", JSON.stringify(gio));
   } else {
-    gio[index].quantity -= 1;
+    gio[vitri].quantity -= 1;
     localStorage.setItem("gioHang", JSON.stringify(gio));
     renderGiohang();
   }

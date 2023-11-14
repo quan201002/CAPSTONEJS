@@ -1,0 +1,39 @@
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #ffffff;
+}
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header nav a {
+  color: #1d365e;
+  transition: 0.3s;
+  position: relative;
+}
+header nav a:hover, header nav a.active {
+  color: #2a73dd;
+}
+header nav a::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: #2a73dd;
+  transition: 0.3s;
+}
+header nav a:hover::before, header nav a.active::before {
+  width: 100%;
+}
+header .logo {
+  font-size: 40px;
+  color: #2a73dd;
+}/*# sourceMappingURL=index.css.map */
