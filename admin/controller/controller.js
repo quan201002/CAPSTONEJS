@@ -107,4 +107,5 @@ export function getDataForm(product) {
   document.getElementById("img").value = product.img;
   document.getElementById("desc").value = product.desc;
   document.getElementById("type").value = product.type;
+  document.getElementById("screen").value = product.screen;
 }
