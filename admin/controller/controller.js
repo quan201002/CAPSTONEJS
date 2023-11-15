@@ -1,7 +1,9 @@
 import { formatPrice } from "../../utils/utils.js";
 import { showUpdateModal, deleteProduct } from "./index.js";
-import { sortPriceHigh2Low, sortPriceLow2High } from "../../constants/constants.js";
-
+import {
+  sortPriceHigh2Low,
+  sortPriceLow2High,
+} from "../../constants/constants.js";
 
 export function renderProductList(productArr) {
   var content = "";
@@ -63,39 +65,43 @@ export function renderProductList(productArr) {
   }
 }
 
-export function getListProductFiltered(listProduct){
-  return getListProductByName(sortProductByPrice(listProduct))
+export function getListProductFiltered(listProduct) {
+  return getListProductByName(sortProductByPrice(listProduct));
 }
 
-export function filterListProduct(listProduct){
-  renderProductList(getListProductFiltered(listProduct))
+export function filterListProduct(listProduct) {
+  renderProductList(getListProductFiltered(listProduct));
 }
 
 function getListProductByName(listProduct = []) {
   if (listProduct.length == 0) return [];
   let inputName = document.getElementById("search-product-input").value;
-  if (inputName.length == 0){
-    return listProduct
+  if (inputName.length == 0) {
+    return listProduct;
   }
-  return listProduct.filter((value) => value.name.toLowerCase().includes(inputName.toLowerCase()));
-  
+  return listProduct.filter((value) =>
+    value.name.toLowerCase().includes(inputName.toLowerCase())
+  );
 }
 
-
-function sortProductByPrice(listProduct = []){
-  let sortType = document.getElementById("sort-price-type").value
-  if (sortType == sortPriceHigh2Low){
-    return listProduct.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
-  } else if (sortType == sortPriceLow2High){
-    return listProduct.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-  } 
-  return listProduct
+function sortProductByPrice(listProduct = []) {
+  let sortType = document.getElementById("sort-price-type").value;
+  if (sortType == sortPriceHigh2Low) {
+    return listProduct.sort(
+      (a, b) => parseFloat(b.price) - parseFloat(a.price)
+    );
+  } else if (sortType == sortPriceLow2High) {
+    return listProduct.sort(
+      (a, b) => parseFloat(a.price) - parseFloat(b.price)
+    );
+  }
+  return listProduct;
 }
 
 export function getDataForm(product) {
-  document.getElementById("id").value = product.id;
   document.getElementById("price").value = product.price;
   document.getElementById("name").value = product.name;
+  document.getElementById("screen").value = product.screen;
   document.getElementById("backCamera").value = product.backCamera;
   document.getElementById("frontCamera").value = product.frontCamera;
   document.getElementById("img").value = product.img;

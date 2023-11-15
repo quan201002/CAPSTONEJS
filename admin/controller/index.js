@@ -99,12 +99,12 @@ function getProduct() {
   return {
     price: price,
     name: name,
+    screen: screen,
     backCamera: backCamera,
     frontCamera: frontCamera,
     img: img,
     desc: desc,
     type: type,
-    screen: screen,
   };
 }
 

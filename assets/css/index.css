@@ -60,3 +60,16 @@ header .logo {
 .product-item img {
   height: 200px;
 }/*# sourceMappingURL=index.css.map */
+#filter-type{
+  border: 2px solid black;
+  border-radius:5px
+}
+#searchtitle{
+  font-size:20px;
+  margin-bottom:0;
+  margin-right:20px;
+  color:blue
+}
+a{
+  text-decoration:none;
+}

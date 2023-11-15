@@ -49,11 +49,15 @@
         <div class="logo">
           <a href="./index.html" class="hover:no-underline">HQ Shop</a>
         </div>
-
         <nav class="space-x-5">
           <a href="./cart/view/index.html">
             <i class="fa-solid fa-cart-shopping" id="cart-icon">(0)</i>
           </a>
+          <button class="btn btn-primary">
+            <a href="./admin/view/index.html" class="text-light"
+              >Đến trang quản trị</a
+            >
+          </button>
         </nav>
       </div>
     </header>
@@ -88,6 +92,7 @@
 
     <section class="products container py-20">
       <div class="search flex justify-end mr-3 mb-3">
+        <p id="searchtitle" class="text-primary">Search type</p>
         <select name="type" id="filter-type">
           <option value="All">All</option>
           <option value="Samsung">Samsung</option>
